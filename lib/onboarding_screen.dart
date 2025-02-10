@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:try_on_fashion/home_screen.dart';
 import 'package:try_on_fashion/login_screen.dart';
 import 'package:try_on_fashion/main.dart';
 
@@ -84,7 +85,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.deepPurple,
                 ),
-                onPressed: _navigateToLogin,
+                onPressed: _currentIndex == _onboardingScreens.length - 1
+                    ? _navigateToLogin
+                    : () {
+                        setState(() {
+                          _currentIndex = _onboardingScreens.length - 1;
+                        });
+                      },
                 child: Text(
                   _currentIndex == _onboardingScreens.length - 1
                       ? 'Login'
@@ -94,6 +101,31 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
             ),
           ),
+          _currentIndex == _onboardingScreens.length - 1
+              ? Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: SizedBox(
+                    height: 50,
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.deepPurple,
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HomeScreen()),
+                        );
+                      },
+                      child: const Text(
+                        'Continue as Guest',
+                        style: TextStyle(fontSize: 16, color: Colors.white),
+                      ),
+                    ),
+                  ),
+                )
+              : Container()
         ],
       ),
     );
